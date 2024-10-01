@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+                  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+                  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+                  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+                  xmlns:activiti="http://www.activiti.org/bpmn"
+                  id="Definitions_0p7ienx" targetNamespace="http://bpmn.io/schema/bpmn"
+                  exporter="bpmn-js (https://demo.bpmn.io)" exporterVersion="17.7.1">
+  <bpmn:process id="taxCalculate" name="Tax Calculate" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_0ddqeyc">
+      <bpmn:outgoing>Flow_0h3a6ps</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:serviceTask id="Activity_0f0gzud" name="Calculate Tax"
+                      implementation="processTaxTask">
+      <bpmn:incoming>Flow_0h3a6ps</bpmn:incoming>
+      <bpmn:outgoing>Flow_10boyav</bpmn:outgoing>
+    </bpmn:serviceTask>
+
+    <bpmn:endEvent id="Event_0u6xlmd">
+      <bpmn:incoming>Flow_10boyav</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:sequenceFlow id="Flow_0h3a6ps" sourceRef="StartEvent_0ddqeyc" targetRef="Activity_0f0gzud" />
+    <bpmn:sequenceFlow id="Flow_10boyav" sourceRef="Activity_0f0gzud" targetRef="Event_0u6xlmd" />
+  </bpmn:process>
+
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="taxCalculate">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_0ddqeyc">
+        <dc:Bounds x="152" y="142" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0f0gzud_di" bpmnElement="Activity_0f0gzud">
+        <dc:Bounds x="280" y="120" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0u6xlmd_di" bpmnElement="Event_0u6xlmd">
+        <dc:Bounds x="452" y="142" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0h3a6ps_di" bpmnElement="Flow_0h3a6ps">
+        <di:waypoint x="188" y="160" />
+        <di:waypoint x="280" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10boyav_di" bpmnElement="Flow_10boyav">
+        <di:waypoint x="380" y="160" />
+        <di:waypoint x="452" y="160" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

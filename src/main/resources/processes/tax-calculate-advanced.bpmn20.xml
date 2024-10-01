@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0p7ienx" targetNamespace="http://bpmn.io/schema/bpmn" exporter="bpmn-js (https://demo.bpmn.io)" exporterVersion="17.7.1">
+  <bpmn:process id="taxCalculateAdvanced" name="Tax Calculate Adavanced" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_0ddqeyc">
+      <bpmn:outgoing>Flow_0h3a6ps</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0h3a6ps" sourceRef="StartEvent_0ddqeyc" targetRef="Activity_0f0gzud" />
+    <bpmn:serviceTask id="Activity_0f0gzud" name="Calculate Tax" implementation="processTaxTask">
+      <bpmn:incoming>Flow_0h3a6ps</bpmn:incoming>
+      <bpmn:outgoing>Flow_10boyav</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_10boyav" sourceRef="Activity_0f0gzud" targetRef="Gateway_14ly89q" />
+    <bpmn:exclusiveGateway id="Gateway_14ly89q">
+      <bpmn:incoming>Flow_10boyav</bpmn:incoming>
+      <bpmn:outgoing>Flow_048nz6k</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0xlwozm</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Activity_0x2n2u2" name="Send Email" implementation="sendEmailTask">
+      <bpmn:incoming>Flow_048nz6k</bpmn:incoming>
+      <bpmn:outgoing>Flow_03q1hup</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_048nz6k" sourceRef="Gateway_14ly89q" targetRef="Activity_0x2n2u2">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${amount gt 50000}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:endEvent id="Event_03a73k0">
+      <bpmn:incoming>Flow_0xlwozm</bpmn:incoming>
+      <bpmn:incoming>Flow_03q1hup</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0xlwozm" sourceRef="Gateway_14ly89q" targetRef="Event_03a73k0">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${amount lt 50000}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_03q1hup" sourceRef="Activity_0x2n2u2" targetRef="Event_03a73k0" />
+    <bpmn:textAnnotation id="TextAnnotation_0k5d6cp">
+      <bpmn:text>is tax greater than 50000</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1wpxbhz" associationDirection="None" sourceRef="Gateway_14ly89q" targetRef="TextAnnotation_0k5d6cp" />
+    <bpmn:textAnnotation id="TextAnnotation_171e4mn">
+      <bpmn:text>No</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0i9ogdx" associationDirection="None" sourceRef="Flow_0xlwozm" targetRef="TextAnnotation_171e4mn" />
+    <bpmn:textAnnotation id="TextAnnotation_146xsza">
+      <bpmn:text>Yes</bpmn:text>
+    </bpmn:textAnnotation>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="taxCalculateAdvanced">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_0ddqeyc">
+        <dc:Bounds x="152" y="232" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0f0gzud_di" bpmnElement="Activity_0f0gzud">
+        <dc:Bounds x="280" y="210" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_14ly89q_di" bpmnElement="Gateway_14ly89q" isMarkerVisible="true">
+        <dc:Bounds x="445" y="225" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0x2n2u2_di" bpmnElement="Activity_0x2n2u2">
+        <dc:Bounds x="580" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_03a73k0_di" bpmnElement="Event_03a73k0">
+        <dc:Bounds x="612" y="232" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0i9ogdx_di" bpmnElement="Association_0i9ogdx">
+        <di:waypoint x="553.5" y="250" />
+        <di:waypoint x="560" y="245" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1wpxbhz_di" bpmnElement="Association_1wpxbhz">
+        <di:waypoint x="470" y="275" />
+        <di:waypoint x="470" y="320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0h3a6ps_di" bpmnElement="Flow_0h3a6ps">
+        <di:waypoint x="188" y="250" />
+        <di:waypoint x="280" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10boyav_di" bpmnElement="Flow_10boyav">
+        <di:waypoint x="380" y="250" />
+        <di:waypoint x="445" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_048nz6k_di" bpmnElement="Flow_048nz6k">
+        <di:waypoint x="470" y="225" />
+        <di:waypoint x="470" y="120" />
+        <di:waypoint x="580" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0xlwozm_di" bpmnElement="Flow_0xlwozm">
+        <di:waypoint x="495" y="250" />
+        <di:waypoint x="612" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_03q1hup_di" bpmnElement="Flow_03q1hup">
+        <di:waypoint x="630" y="160" />
+        <di:waypoint x="630" y="232" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_1ogbngq" bpmnElement="TextAnnotation_146xsza">
+        <dc:Bounds x="440" y="150" width="100" height="30" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_171e4mn_di" bpmnElement="TextAnnotation_171e4mn">
+        <dc:Bounds x="530" y="215" width="100" height="30" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0k5d6cp_di" bpmnElement="TextAnnotation_0k5d6cp">
+        <dc:Bounds x="420" y="320" width="100" height="41" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
