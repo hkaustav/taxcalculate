@@ -19,5 +19,10 @@ public class ProcessController {
         ProcessInstance processInstance = processService.startProcess(income);
         return "Process started with ID: " + processInstance.getId();
     }
+
+    @GetMapping("/health")
+    public String initProcess() {
+        return "Tax calculation service started";
+    }
 }
 
